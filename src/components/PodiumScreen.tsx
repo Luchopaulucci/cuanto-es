@@ -16,7 +16,7 @@ export function PodiumScreen({ players, scores, onAgain }: Props) {
   return (
     <main
       data-testid="podium-screen"
-      className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-4 pt-10 pb-8"
+      className="podium-screen safe-area-screen screen-min-h mx-auto flex w-full max-w-md flex-col px-4"
     >
       <p className="text-sm font-semibold tracking-widest text-gold uppercase">
         Se terminó

@@ -41,7 +41,7 @@ export function GuessScreen({ player, premise, roundLabel, onSubmit }: Props) {
   return (
     <main
       data-testid="guess-screen"
-      className="guess-screen flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none px-4 pt-5 pb-6"
+      className="guess-screen safe-area-screen flex flex-col overflow-hidden overscroll-none px-4"
       style={{ background: player.color, color: ink }}
     >
       <header className="flex items-start justify-between gap-3">
