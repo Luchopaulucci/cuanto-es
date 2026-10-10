@@ -3,6 +3,7 @@ import { contrastText } from '../game/colors'
 import { formatPremiseValue, hapticTick } from '../game/format'
 import { defaultSliderValue, nudgeValue, snapToStep } from '../game/slider'
 import type { Player, Premise } from '../game/types'
+import { useLockBodyScroll } from '../game/useLockBodyScroll'
 import { VerticalSlider } from './VerticalSlider'
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 }
 
 export function GuessScreen({ player, premise, roundLabel, onSubmit }: Props) {
+  useLockBodyScroll(true)
   const ink = contrastText(player.color)
   const [value, setValue] = useState(() =>
     snapToStep(
@@ -39,7 +41,7 @@ export function GuessScreen({ player, premise, roundLabel, onSubmit }: Props) {
   return (
     <main
       data-testid="guess-screen"
-      className="flex min-h-dvh flex-col px-4 pt-5 pb-6"
+      className="guess-screen flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none px-4 pt-5 pb-6"
       style={{ background: player.color, color: ink }}
     >
       <header className="flex items-start justify-between gap-3">

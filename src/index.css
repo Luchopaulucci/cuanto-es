@@ -22,6 +22,7 @@ body,
   color: var(--color-cream);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 body {
@@ -42,9 +43,30 @@ body {
 }
 
 button,
-input,
-[role='slider'] {
+input {
   touch-action: manipulation;
+}
+
+.vertical-slider,
+.vertical-slider-track,
+.vertical-slider-thumb {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.guess-screen {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+html.scroll-locked,
+body.scroll-locked {
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

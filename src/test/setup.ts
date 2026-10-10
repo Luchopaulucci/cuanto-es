@@ -52,3 +52,15 @@ Object.defineProperty(navigator, 'vibrate', {
   writable: true,
   value: () => true,
 })
+
+if (typeof Element !== 'undefined') {
+  if (typeof Element.prototype.setPointerCapture !== 'function') {
+    Element.prototype.setPointerCapture = () => {}
+  }
+  if (typeof Element.prototype.releasePointerCapture !== 'function') {
+    Element.prototype.releasePointerCapture = () => {}
+  }
+  if (typeof Element.prototype.hasPointerCapture !== 'function') {
+    Element.prototype.hasPointerCapture = () => false
+  }
+}

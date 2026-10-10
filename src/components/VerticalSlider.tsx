@@ -1,5 +1,6 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { hapticTick } from '../game/format'
+import { attachNonPassiveSliderListeners } from '../game/slider-gestures'
 import { snapToStep, tToValue, valueToT } from '../game/slider'
 import type { Scale } from '../game/types'
 
@@ -26,6 +27,12 @@ export function VerticalSlider({
 }: Props) {
   const trackRef = useRef<HTMLDivElement>(null)
   const lastTick = useRef(value)
+  const dragging = useRef(false)
+  const onChangeRef = useRef(onChange)
+
+  useEffect(() => {
+    onChangeRef.current = onChange
+  }, [onChange])
 
   const applyClientY = useCallback(
     (clientY: number) => {
@@ -39,20 +46,16 @@ export function VerticalSlider({
         hapticTick(8)
         lastTick.current = next
       }
-      onChange(next)
+      onChangeRef.current(next)
     },
-    [max, min, onChange, scale, step],
+    [max, min, scale, step],
   )
 
-  const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId)
-    applyClientY(event.clientY)
-  }
-
-  const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.buttons === 0) return
-    applyClientY(event.clientY)
-  }
+  useEffect(() => {
+    const el = trackRef.current
+    if (!el) return
+    return attachNonPassiveSliderListeners(el, { dragging, applyClientY })
+  }, [applyClientY])
 
   const t = valueToT(value, min, max, scale)
 
@@ -67,9 +70,7 @@ export function VerticalSlider({
       aria-orientation="vertical"
       tabIndex={0}
       data-testid="vertical-slider"
-      className="relative mx-auto h-full min-h-44 w-20 cursor-ns-resize touch-none select-none"
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
+      className="vertical-slider relative mx-auto h-full min-h-44 w-20 cursor-ns-resize touch-none select-none"
       onKeyDown={(event) => {
         if (event.key === 'ArrowUp' || event.key === 'ArrowRight') {
           event.preventDefault()
@@ -83,7 +84,10 @@ export function VerticalSlider({
         }
       }}
     >
-      <div className="absolute inset-x-1/2 top-2 bottom-2 w-2 -translate-x-1/2 rounded-full bg-white/20" />
+      <div
+        data-testid="vertical-slider-track"
+        className="vertical-slider-track absolute inset-x-1/2 top-2 bottom-2 w-2 -translate-x-1/2 rounded-full bg-white/20"
+      />
       <div
         className="absolute inset-x-1/2 bottom-2 w-2 -translate-x-1/2 rounded-full"
         style={{
@@ -92,7 +96,8 @@ export function VerticalSlider({
         }}
       />
       <div
-        className="absolute left-1/2 size-16 -translate-x-1/2 rounded-full border-4 border-white shadow-lg"
+        data-testid="vertical-slider-thumb"
+        className="vertical-slider-thumb absolute left-1/2 size-16 -translate-x-1/2 rounded-full border-4 border-white shadow-lg"
         style={{
           bottom: `calc(${t * 100}% - 2.1rem)`,
           background: color,
