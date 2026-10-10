@@ -1,0 +1,67 @@
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/source-sans-3';
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-sans: 'Source Sans 3 Variable', 'Source Sans 3', system-ui, sans-serif;
+  --color-ink: #1e1446;
+  --color-ink-deep: #140c33;
+  --color-cream: #fff8f0;
+  --color-gold: #f5d56a;
+  --color-pink: #ff8fab;
+  --color-mist: rgba(255, 248, 240, 0.72);
+}
+
+html,
+body,
+#root {
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+body {
+  padding:
+    env(safe-area-inset-top, 0px)
+    env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px)
+    env(safe-area-inset-left, 0px);
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+[role='slider'] {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
