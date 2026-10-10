@@ -41,4 +41,10 @@ describe('layout móvil: scroll y safe-area', () => {
     expect(base?.[1]).not.toMatch(/overflow:\s*hidden/)
     expect(base?.[1]).not.toMatch(/touch-action:\s*none/)
   })
+
+  it('deja 32px entre el slider y Listo, y el thumb mide 64px', () => {
+    expect(css).toMatch(/\.guess-ready\s*\{[^}]*margin-top:\s*32px/)
+    expect(css).toMatch(/\.vertical-slider-thumb\s*\{[^}]*width:\s*64px/)
+    expect(css).toMatch(/\.vertical-slider-thumb\s*\{[^}]*height:\s*64px/)
+  })
 })

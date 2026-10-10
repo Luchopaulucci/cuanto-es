@@ -51,6 +51,24 @@ input {
   -webkit-user-select: none;
 }
 
+.vertical-slider {
+  min-height: 64px;
+}
+
+.vertical-slider-thumb {
+  width: 64px;
+  height: 64px;
+}
+
+.guess-slider-row {
+  min-height: 0;
+}
+
+.guess-ready {
+  margin-top: 32px;
+  flex-shrink: 0;
+}
+
 .safe-area-screen {
   padding-top: calc(var(--screen-pt, 2rem) + env(safe-area-inset-top, 0px));
   padding-bottom: calc(var(--screen-pb, 2rem) + env(safe-area-inset-bottom, 0px));

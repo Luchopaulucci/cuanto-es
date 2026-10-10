@@ -40,6 +40,8 @@ describe('lock de scroll solo en la pantalla del slider', () => {
       />,
     )
     expect(screen.getByTestId('guess-screen')).toHaveClass('guess-screen', 'safe-area-screen')
+    expect(screen.getByTestId('guess-ready')).toHaveClass('guess-ready')
+    expect(screen.getByTestId('guess-slider-row')).toHaveClass('guess-slider-row')
     expect(document.body.classList.contains(SCROLL_LOCK_CLASS)).toBe(true)
     expect(document.documentElement.classList.contains(SCROLL_LOCK_CLASS)).toBe(false)
     expect(document.documentElement.style.overflow).not.toBe('hidden')

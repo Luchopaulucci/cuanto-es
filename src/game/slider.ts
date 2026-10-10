@@ -1,5 +1,8 @@
 import type { Scale } from './types'
 
+export const SLIDER_THUMB_SIZE_PX = 64
+export const GUESS_READY_GAP_PX = 32
+
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
 }
@@ -73,4 +76,40 @@ export function nudgeValue(
 
 export function defaultSliderValue(min: number, max: number, scale: Scale): number {
   return tToValue(0.5, min, max, scale)
+}
+
+/** El centro del thumb viaja entre media altura y (alto - media altura). */
+export function pointerYToT(
+  clientY: number,
+  rect: Pick<DOMRect, 'top' | 'bottom' | 'height'>,
+  thumbSize = SLIDER_THUMB_SIZE_PX,
+): number {
+  const usable = rect.height - thumbSize
+  if (usable <= 0) return 0
+  const inset = thumbSize / 2
+  return clamp((rect.bottom - inset - clientY) / usable, 0, 1)
+}
+
+export function thumbBottomCss(
+  t: number,
+  thumbSize = SLIDER_THUMB_SIZE_PX,
+): string {
+  return `calc(${clamp(t, 0, 1)} * (100% - ${thumbSize}px))`
+}
+
+export function fillHeightCss(
+  t: number,
+  thumbSize = SLIDER_THUMB_SIZE_PX,
+): string {
+  return `calc(${clamp(t, 0, 1)} * (100% - ${thumbSize}px) + ${thumbSize / 2}px)`
+}
+
+export function thumbEdgesInSlider(
+  t: number,
+  sliderHeight: number,
+  thumbSize = SLIDER_THUMB_SIZE_PX,
+): { bottom: number; top: number } {
+  const usable = Math.max(0, sliderHeight - thumbSize)
+  const bottom = clamp(t, 0, 1) * usable
+  return { bottom, top: bottom + thumbSize }
 }
