@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { OG_IMAGE_URL, SEO, SITE_URL, applySeoTags } from './seo'
+import { CANONICAL_URL, OG_IMAGE_URL, SEO, SITE_URL, applySeoTags } from './seo'
 
 describe('SEO', () => {
   it('arma la URL absoluta del og:image desde SITE_URL', () => {
     expect(SITE_URL).toBe('https://cuanto-es.vercel.app')
     expect(OG_IMAGE_URL).toBe('https://cuanto-es.vercel.app/og.png')
+    expect(CANONICAL_URL).toBe('https://cuanto-es.vercel.app/')
     expect(SEO.imageWidth).toBe(1200)
     expect(SEO.imageHeight).toBe(630)
     expect(SEO.locale).toBe('es_AR')
@@ -33,6 +34,7 @@ describe('SEO', () => {
       <meta name="twitter:description" content="">
       <meta name="twitter:image" content="">
       <meta name="theme-color" content="">
+      <link rel="canonical" href="">
     `
     applySeoTags(document)
     expect(document.title).toBe(SEO.title)
@@ -44,6 +46,9 @@ describe('SEO', () => {
     )
     expect(document.head.querySelector('meta[name="theme-color"]')?.getAttribute('content')).toBe(
       '#1e1446',
+    )
+    expect(document.head.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      CANONICAL_URL,
     )
   })
 })

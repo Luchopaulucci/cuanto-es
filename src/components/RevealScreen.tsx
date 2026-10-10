@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { formatErrorPct, formatPremiseValue } from '../game/format'
+import { formatErrorPct, formatPremiseValue, winnerHeadline } from '../game/format'
 import { disputedNote, isYearPremise } from '../game/scoring'
 import type { Award, Player, Premise } from '../game/types'
 import { NumberLine } from './NumberLine'
@@ -48,10 +48,9 @@ export function RevealScreen({
   }, [premise.min, premise.value, reduce])
 
   const winners = awards.filter((a) => a.rank === 1)
-  const winnerNames = winners
-    .map((w) => players.find((p) => p.id === w.playerId)?.name)
-    .filter(Boolean)
-    .join(' y ')
+  const winnerNames = players
+    .filter((p) => winners.some((w) => w.playerId === p.id))
+    .map((p) => p.name)
   const note = disputedNote(premise)
 
   return (
@@ -86,8 +85,8 @@ export function RevealScreen({
         Fuente: {premise.source.name}
       </a>
 
-      <p className="mt-6 text-xl font-bold">
-        {winners.length > 1 ? `¡Empate entre ${winnerNames}!` : `¡${winnerNames} se quedó más cerca!`}
+      <p data-testid="winner-headline" className="mt-6 text-xl font-bold">
+        {winnerHeadline(winnerNames)}
       </p>
       <ul className="mt-2 text-sm text-mist">
         {awards.map((a) => {

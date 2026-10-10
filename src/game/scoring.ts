@@ -72,11 +72,11 @@ export function awardPoints(rows: ErrorRow[]): Award[] {
       j += 1
     }
     const groupSize = j - i
-    const shared = sharePlacePoints(place, groupSize)
+    const points = pointsForPlace(place)
     for (let k = i; k < j; k += 1) {
       awards.push({
         playerId: sorted[k].playerId,
-        points: shared,
+        points,
         error: sorted[k].error,
         rank: place + 1,
       })
@@ -88,12 +88,9 @@ export function awardPoints(rows: ErrorRow[]): Award[] {
   return awards
 }
 
-export function sharePlacePoints(startPlace: number, groupSize: number): number {
-  let sum = 0
-  for (let n = 0; n < groupSize; n += 1) {
-    sum += PLACE_POINTS[startPlace + n] ?? 0
-  }
-  return sum / groupSize
+/** Puntos enteros del puesto (1224): empate en 1° = 3 y 3; el que sigue es 3° y lleva 1. */
+export function pointsForPlace(startPlace: number): number {
+  return PLACE_POINTS[startPlace] ?? 0
 }
 
 function almostEqual(a: number, b: number): boolean {

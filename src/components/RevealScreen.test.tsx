@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { cleanup, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it } from 'vitest'
 import { DISPUTED_NOTE } from '../game/types'
 import type { Premise } from '../game/types'
 import { RevealScreen } from './RevealScreen'
@@ -20,6 +20,8 @@ const disputed: Premise = {
   source: { name: 'Cultura', url: 'https://www.cultura.gob.ar/' },
 }
 
+afterEach(() => cleanup())
+
 describe('RevealScreen disputed', () => {
   it('muestra la nota en cada premisa en disputa', () => {
     render(
@@ -34,5 +36,32 @@ describe('RevealScreen disputed', () => {
       />,
     )
     expect(screen.getByTestId('disputed-note')).toHaveTextContent(DISPUTED_NOTE)
+  })
+
+  it('lista el empate en español natural', () => {
+    render(
+      <RevealScreen
+        premise={disputed}
+        players={[
+          { id: 'a', name: 'Beto', color: '#C42B54' },
+          { id: 'b', name: 'Caro', color: '#1D4ED8' },
+          { id: 'c', name: 'Dani', color: '#15803D' },
+          { id: 'd', name: 'Hugo', color: '#6D28D9' },
+        ]}
+        guesses={{ a: 1829, b: 1829, c: 1829, d: 1829 }}
+        awards={[
+          { playerId: 'a', points: 3, error: 0, rank: 1 },
+          { playerId: 'b', points: 3, error: 0, rank: 1 },
+          { playerId: 'c', points: 3, error: 0, rank: 1 },
+          { playerId: 'd', points: 3, error: 0, rank: 1 },
+        ]}
+        scores={{ a: 3, b: 3, c: 3, d: 3 }}
+        onNext={() => {}}
+        nextLabel="Siguiente"
+      />,
+    )
+    expect(screen.getByTestId('winner-headline')).toHaveTextContent(
+      '¡Empate entre Beto, Caro, Dani y Hugo!',
+    )
   })
 })

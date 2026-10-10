@@ -4,10 +4,10 @@ import {
   awardPoints,
   disputedNote,
   isYearPremise,
+  pointsForPlace,
   premiseError,
   rangeError,
   relativeError,
-  sharePlacePoints,
 } from './scoring'
 import type { Premise } from './types'
 
@@ -65,16 +65,55 @@ describe('awardPoints', () => {
     expect(awards.find((x) => x.playerId === 'a')?.points).toBe(1)
   })
 
-  it('reparte puntos en empate', () => {
-    expect(sharePlacePoints(0, 2)).toBe(2.5)
+  it('empate en 1°: los dos llevan 3 y el siguiente es 3° con 1', () => {
+    expect(pointsForPlace(0)).toBe(3)
     const awards = awardPoints([
       { playerId: 'a', error: 0.1 },
       { playerId: 'b', error: 0.1 },
       { playerId: 'c', error: 0.4 },
     ])
-    expect(awards.find((x) => x.playerId === 'a')?.points).toBe(2.5)
-    expect(awards.find((x) => x.playerId === 'b')?.points).toBe(2.5)
-    expect(awards.find((x) => x.playerId === 'c')?.points).toBe(1)
+    expect(awards.every((a) => Number.isInteger(a.points))).toBe(true)
+    expect(awards.find((x) => x.playerId === 'a')).toMatchObject({ points: 3, rank: 1 })
+    expect(awards.find((x) => x.playerId === 'b')).toMatchObject({ points: 3, rank: 1 })
+    expect(awards.find((x) => x.playerId === 'c')).toMatchObject({ points: 1, rank: 3 })
+  })
+
+  it('empate en 2°: el 1° lleva 3 y los empatados llevan 2', () => {
+    const awards = awardPoints([
+      { playerId: 'a', error: 0.05 },
+      { playerId: 'b', error: 0.2 },
+      { playerId: 'c', error: 0.2 },
+      { playerId: 'd', error: 0.9 },
+    ])
+    expect(awards.every((a) => Number.isInteger(a.points))).toBe(true)
+    expect(awards.find((x) => x.playerId === 'a')).toMatchObject({ points: 3, rank: 1 })
+    expect(awards.find((x) => x.playerId === 'b')).toMatchObject({ points: 2, rank: 2 })
+    expect(awards.find((x) => x.playerId === 'c')).toMatchObject({ points: 2, rank: 2 })
+    expect(awards.find((x) => x.playerId === 'd')).toMatchObject({ points: 0, rank: 4 })
+  })
+
+  it('empate en 3°: 3, 2 y los dos últimos llevan 1', () => {
+    const awards = awardPoints([
+      { playerId: 'a', error: 0.05 },
+      { playerId: 'b', error: 0.1 },
+      { playerId: 'c', error: 0.4 },
+      { playerId: 'd', error: 0.4 },
+    ])
+    expect(awards.every((a) => Number.isInteger(a.points))).toBe(true)
+    expect(awards.find((x) => x.playerId === 'a')).toMatchObject({ points: 3, rank: 1 })
+    expect(awards.find((x) => x.playerId === 'b')).toMatchObject({ points: 2, rank: 2 })
+    expect(awards.find((x) => x.playerId === 'c')).toMatchObject({ points: 1, rank: 3 })
+    expect(awards.find((x) => x.playerId === 'd')).toMatchObject({ points: 1, rank: 3 })
+  })
+
+  it('ocho empatados: todos 1° y todos llevan 3, sin fracciones', () => {
+    const awards = awardPoints(
+      Array.from({ length: 8 }, (_, i) => ({ playerId: `p${i}`, error: 0.33 })),
+    )
+    expect(awards).toHaveLength(8)
+    expect(awards.every((a) => a.points === 3 && a.rank === 1 && Number.isInteger(a.points))).toBe(
+      true,
+    )
   })
 })
 

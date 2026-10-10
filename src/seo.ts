@@ -3,6 +3,7 @@ export const SITE_URL = (
 ).replace(/\/$/, '')
 
 export const OG_IMAGE_URL = `${SITE_URL}/og.png`
+export const CANONICAL_URL = `${SITE_URL}/`
 
 export const SEO = {
   title: '¿Cuánto es? El juego de adivinar con amigos en un solo celular',
@@ -35,4 +36,11 @@ export function applySeoTags(doc: Document = document): void {
   set('meta[name="twitter:description"]', 'content', SEO.description)
   set('meta[name="twitter:image"]', 'content', OG_IMAGE_URL)
   set('meta[name="theme-color"]', 'content', SEO.themeColor)
+  let canonical = doc.head.querySelector('link[rel="canonical"]')
+  if (!canonical) {
+    canonical = doc.createElement('link')
+    canonical.setAttribute('rel', 'canonical')
+    doc.head.appendChild(canonical)
+  }
+  canonical.setAttribute('href', CANONICAL_URL)
 }

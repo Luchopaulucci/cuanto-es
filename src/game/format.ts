@@ -37,6 +37,21 @@ export function formatErrorPct(error: number, scale: Premise['scale']): string {
   return `${formatValue(error * 100, 0.1)}%`
 }
 
+const nameList = new Intl.ListFormat('es', {
+  style: 'long',
+  type: 'conjunction',
+})
+
+export function formatNameList(names: string[]): string {
+  return nameList.format(names)
+}
+
+export function winnerHeadline(names: string[]): string {
+  if (names.length === 0) return ''
+  if (names.length === 1) return `¡${names[0]} se quedó más cerca!`
+  return `¡Empate entre ${formatNameList(names)}!`
+}
+
 export function hapticTick(ms = 8): void {
   try {
     navigator.vibrate?.(ms)
