@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { hapticTick } from '../game/format'
 import { attachNonPassiveSliderListeners } from '../game/slider-gestures'
-import { snapToStep, tToValue, valueToT } from '../game/slider'
+import {
+  fillHeightCss,
+  pointerYToT,
+  snapToStep,
+  thumbBottomCss,
+  tToValue,
+  valueToT,
+} from '../game/slider'
 import type { Scale } from '../game/types'
 
 type Props = {
@@ -39,7 +46,7 @@ export function VerticalSlider({
       const track = trackRef.current
       if (!track) return
       const rect = track.getBoundingClientRect()
-      const t = (rect.bottom - clientY) / rect.height
+      const t = pointerYToT(clientY, rect)
       const raw = tToValue(t, min, max, scale)
       const next = snapToStep(raw, min, max, step)
       if (next !== lastTick.current) {
@@ -70,7 +77,7 @@ export function VerticalSlider({
       aria-orientation="vertical"
       tabIndex={0}
       data-testid="vertical-slider"
-      className="vertical-slider relative mx-auto h-full min-h-44 w-20 cursor-ns-resize touch-none select-none"
+      className="vertical-slider relative mx-auto h-full min-h-0 w-20 cursor-ns-resize touch-none select-none"
       onKeyDown={(event) => {
         if (event.key === 'ArrowUp' || event.key === 'ArrowRight') {
           event.preventDefault()
@@ -89,9 +96,9 @@ export function VerticalSlider({
         className="vertical-slider-track absolute inset-x-1/2 top-2 bottom-2 w-2 -translate-x-1/2 rounded-full bg-white/20"
       />
       <div
-        className="absolute inset-x-1/2 bottom-2 w-2 -translate-x-1/2 rounded-full"
+        className="absolute inset-x-1/2 bottom-0 w-2 -translate-x-1/2 rounded-full"
         style={{
-          height: `calc(${t * 100}% - 8px)`,
+          height: fillHeightCss(t),
           background: color,
         }}
       />
@@ -99,7 +106,7 @@ export function VerticalSlider({
         data-testid="vertical-slider-thumb"
         className="vertical-slider-thumb absolute left-1/2 size-16 -translate-x-1/2 rounded-full border-4 border-white shadow-lg"
         style={{
-          bottom: `calc(${t * 100}% - 2.1rem)`,
+          bottom: thumbBottomCss(t),
           background: color,
         }}
       />

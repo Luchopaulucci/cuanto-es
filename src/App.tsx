@@ -95,7 +95,7 @@ function GameApp() {
   }
 
   return (
-    <main className="flex min-h-dvh items-center justify-center px-6">
+    <main className="safe-area-screen screen-min-h flex items-center justify-center px-6">
       <p>Algo se rompió. Recargá y empezá de nuevo.</p>
     </main>
   )

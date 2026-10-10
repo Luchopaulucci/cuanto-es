@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { SLIDER_THUMB_SIZE_PX, thumbBottomCss } from '../game/slider'
 import { VerticalSlider } from './VerticalSlider'
 
 const css = readFileSync(
@@ -82,5 +83,13 @@ describe('VerticalSlider touch', () => {
     const prevent = vi.spyOn(move, 'preventDefault')
     slider.dispatchEvent(move)
     expect(prevent).toHaveBeenCalled()
+  })
+
+  it('el thumb en mínimo y máximo queda dentro de la pista', () => {
+    const { rerender } = render(<VerticalSlider {...props} value={0} onChange={() => {}} />)
+    expect(screen.getByTestId('vertical-slider-thumb').style.bottom).toBe(thumbBottomCss(0))
+    rerender(<VerticalSlider {...props} value={100} onChange={() => {}} />)
+    expect(screen.getByTestId('vertical-slider-thumb').style.bottom).toBe(thumbBottomCss(1))
+    expect(thumbBottomCss(0)).toContain(`100% - ${SLIDER_THUMB_SIZE_PX}px`)
   })
 })

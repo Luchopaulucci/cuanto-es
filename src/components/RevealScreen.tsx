@@ -56,7 +56,7 @@ export function RevealScreen({
   return (
     <main
       data-testid="reveal-screen"
-      className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-4 pt-8 pb-8"
+      className="reveal-screen safe-area-screen screen-min-h mx-auto flex w-full max-w-md flex-col px-4"
     >
       <p className="text-sm font-semibold tracking-widest text-gold uppercase">
         El valor real

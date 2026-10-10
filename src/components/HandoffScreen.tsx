@@ -11,7 +11,7 @@ export function HandoffScreen({ player, onReady }: Props) {
   return (
     <main
       data-testid="handoff-screen"
-      className="flex min-h-dvh flex-col items-center justify-between px-6 py-10 text-center"
+      className="handoff-screen safe-area-screen screen-min-h flex flex-col items-center justify-between px-6 text-center"
       style={{ background: player.color, color: ink }}
     >
       <p className="text-sm font-semibold uppercase tracking-[0.2em] opacity-80">

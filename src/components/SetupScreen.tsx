@@ -67,7 +67,7 @@ export function SetupScreen({
   return (
     <main
       data-testid="setup-screen"
-      className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-4 pt-8 pb-8"
+      className="setup-screen safe-area-screen screen-min-h mx-auto flex w-full max-w-md flex-col px-4"
     >
       <p className="text-sm font-semibold tracking-[0.18em] text-gold uppercase">
         Un celu. Toda la mesa.

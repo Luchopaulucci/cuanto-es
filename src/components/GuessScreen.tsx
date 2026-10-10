@@ -41,7 +41,7 @@ export function GuessScreen({ player, premise, roundLabel, onSubmit }: Props) {
   return (
     <main
       data-testid="guess-screen"
-      className="guess-screen flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none px-4 pt-5 pb-6"
+      className="guess-screen safe-area-screen flex flex-col overflow-hidden overscroll-none px-4"
       style={{ background: player.color, color: ink }}
     >
       <header className="flex items-start justify-between gap-3">
@@ -64,7 +64,10 @@ export function GuessScreen({ player, premise, roundLabel, onSubmit }: Props) {
         <p className="mt-1 text-lg opacity-80">{premise.unit}</p>
       </div>
 
-      <div className="mt-4 flex min-h-0 flex-1 items-stretch gap-3">
+      <div
+        data-testid="guess-slider-row"
+        className="guess-slider-row mt-4 flex min-h-0 flex-1 items-stretch gap-3"
+      >
         <button
           type="button"
           data-testid="slider-minus"
@@ -74,7 +77,7 @@ export function GuessScreen({ player, premise, roundLabel, onSubmit }: Props) {
         >
           −
         </button>
-        <div className="min-h-52 flex-1">
+        <div className="min-h-0 flex-1">
           <VerticalSlider
             min={premise.min}
             max={premise.max}
@@ -101,7 +104,7 @@ export function GuessScreen({ player, premise, roundLabel, onSubmit }: Props) {
         type="button"
         data-testid="guess-ready"
         onClick={() => onSubmit(value)}
-        className="mt-4 min-h-14 w-full rounded-full bg-white text-lg font-bold text-ink shadow-lg"
+        className="guess-ready min-h-14 w-full rounded-full bg-white text-lg font-bold text-ink shadow-lg"
       >
         Listo
       </button>

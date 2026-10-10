@@ -1,30 +1,37 @@
+import { isYearPremise } from './scoring'
 import { decimalsFromStep } from './slider'
 import type { Premise } from './types'
 
-const numberFmtCache = new Map<number, Intl.NumberFormat>()
+const numberFmtCache = new Map<string, Intl.NumberFormat>()
 
-function formatter(decimals: number): Intl.NumberFormat {
-  const cached = numberFmtCache.get(decimals)
+function formatter(decimals: number, grouping: boolean): Intl.NumberFormat {
+  const key = `${decimals}:${grouping ? 'g' : 'n'}`
+  const cached = numberFmtCache.get(key)
   if (cached) return cached
   const fmt = new Intl.NumberFormat('es-AR', {
     maximumFractionDigits: decimals,
     minimumFractionDigits: 0,
+    useGrouping: grouping,
   })
-  numberFmtCache.set(decimals, fmt)
+  numberFmtCache.set(key, fmt)
   return fmt
 }
 
-export function formatValue(value: number, step: number): string {
+export function formatValue(
+  value: number,
+  step: number,
+  grouping = true,
+): string {
   if (!Number.isFinite(value)) return '—'
   const abs = Math.abs(value)
   if (abs >= 1e12 || (abs > 0 && abs < 1e-3 && step < 1e-3)) {
     return value.toExponential(2).replace('.', ',')
   }
-  return formatter(decimalsFromStep(step)).format(value)
+  return formatter(decimalsFromStep(step), grouping).format(value)
 }
 
 export function formatPremiseValue(premise: Premise, value: number): string {
-  return formatValue(value, premise.step)
+  return formatValue(value, premise.step, !isYearPremise(premise))
 }
 
 export function formatErrorPct(error: number, scale: Premise['scale']): string {

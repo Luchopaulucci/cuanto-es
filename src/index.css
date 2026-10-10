@@ -14,23 +14,19 @@
 }
 
 html,
+body {
+  overscroll-behavior: none;
+}
+
+html,
 body,
 #root {
+  min-height: 100vh;
   min-height: 100dvh;
   margin: 0;
   background: var(--color-ink);
   color: var(--color-cream);
   font-family: var(--font-sans);
-  overflow-x: hidden;
-  overscroll-behavior: none;
-}
-
-body {
-  padding:
-    env(safe-area-inset-top, 0px)
-    env(safe-area-inset-right, 0px)
-    env(safe-area-inset-bottom, 0px)
-    env(safe-area-inset-left, 0px);
 }
 
 #root {
@@ -55,17 +51,69 @@ input {
   -webkit-user-select: none;
 }
 
+.vertical-slider {
+  min-height: 64px;
+}
+
+.vertical-slider-thumb {
+  width: 64px;
+  height: 64px;
+}
+
+.guess-slider-row {
+  min-height: 0;
+}
+
+.guess-ready {
+  margin-top: 32px;
+  flex-shrink: 0;
+}
+
+.safe-area-screen {
+  padding-top: calc(var(--screen-pt, 2rem) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(var(--screen-pb, 2rem) + env(safe-area-inset-bottom, 0px));
+}
+
+.screen-min-h {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
 .guess-screen {
+  --screen-pt: 1.25rem;
+  --screen-pb: 1.5rem;
+  height: 100vh;
   height: 100dvh;
+  max-height: 100vh;
   max-height: 100dvh;
   overflow: hidden;
   overscroll-behavior: none;
   touch-action: none;
 }
 
-html.scroll-locked,
+.setup-screen {
+  --screen-pt: 2rem;
+  --screen-pb: 2rem;
+}
+
+.handoff-screen {
+  --screen-pt: 2.5rem;
+  --screen-pb: 2.5rem;
+}
+
+.reveal-screen {
+  --screen-pt: 2rem;
+  --screen-pb: 2rem;
+}
+
+.podium-screen {
+  --screen-pt: 2.5rem;
+  --screen-pb: 2rem;
+}
+
 body.scroll-locked {
   overflow: hidden;
+  touch-action: none;
   overscroll-behavior: none;
 }
 

@@ -36,6 +36,8 @@ describe('RevealScreen disputed', () => {
       />,
     )
     expect(screen.getByTestId('disputed-note')).toHaveTextContent(DISPUTED_NOTE)
+    expect(screen.getByTestId('reveal-value')).toHaveTextContent('1829')
+    expect(screen.getByTestId('reveal-value')).not.toHaveTextContent('1.829')
   })
 
   it('lista el empate en español natural', () => {
