@@ -1,5 +1,5 @@
 export const SITE_URL = (
-  import.meta.env.VITE_SITE_URL ?? 'https://cuanto-es.vercel.app'
+  import.meta.env.VITE_SITE_URL ?? 'https://cuanto-es-xi.vercel.app'
 ).replace(/\/$/, '')
 
 export const OG_IMAGE_URL = `${SITE_URL}/og.png`

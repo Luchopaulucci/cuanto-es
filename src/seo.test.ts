@@ -3,9 +3,9 @@ import { CANONICAL_URL, OG_IMAGE_URL, SEO, SITE_URL, applySeoTags } from './seo'
 
 describe('SEO', () => {
   it('arma la URL absoluta del og:image desde SITE_URL', () => {
-    expect(SITE_URL).toBe('https://cuanto-es.vercel.app')
-    expect(OG_IMAGE_URL).toBe('https://cuanto-es.vercel.app/og.png')
-    expect(CANONICAL_URL).toBe('https://cuanto-es.vercel.app/')
+    expect(SITE_URL).toBe('https://cuanto-es-xi.vercel.app')
+    expect(OG_IMAGE_URL).toBe('https://cuanto-es-xi.vercel.app/og.png')
+    expect(CANONICAL_URL).toBe('https://cuanto-es-xi.vercel.app/')
     expect(SEO.imageWidth).toBe(1200)
     expect(SEO.imageHeight).toBe(630)
     expect(SEO.locale).toBe('es_AR')

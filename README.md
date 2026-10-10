@@ -39,7 +39,7 @@ Más de 80 premisas con valor, unidad, rango del slider, escala (lineal o log) y
 
 ## SEO / compartir
 
-La URL canónica se arma con `VITE_SITE_URL` (por defecto `https://cuanto-es.vercel.app`). El `og.png` (1200×630) vive en `public/og.png`.
+La URL canónica se arma con `VITE_SITE_URL` (por defecto `https://cuanto-es-xi.vercel.app`). El `og.png` (1200×630) vive en `public/og.png`.
 
 ```
 VITE_SITE_URL=https://tu-dominio.com
